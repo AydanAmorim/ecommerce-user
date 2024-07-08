@@ -21,6 +21,8 @@ import java.util.Set;
 
 @Component
 public class UserController {
+    @Resource
+    private RoleGateway roleGateway;
 
     @Resource
     private UserGateway userGateway;
@@ -28,8 +30,6 @@ public class UserController {
     @Resource
     private UserPresenter userPresenter;
 
-    @Resource
-    private RoleGateway roleGateway;
 
     public PagedResponse<UserDto> findAll(Pagination pagination) {
         Pageable pageable = PageRequest.of(pagination.getPage(), pagination.getPageSize());
@@ -39,12 +39,14 @@ public class UserController {
         return this.userPresenter.convert(users);
     }
     public UserDto insertAdminUser(UserDto userDto){
-        var basicRole = getRole(Role.Values.ADMIN.name());
+        var roleName = Role.Values.ADMIN.name();
+        var basicRole = getRole(roleName);
         return insertUser(userDto, basicRole);
     }
 
     public UserDto insertBasicUser(UserDto userDto){
-        var basicRole = getRole(Role.Values.BASIC.name());
+        var roleName = Role.Values.BASIC.name();
+        var basicRole = getRole(roleName);
         return insertUser(userDto, basicRole);
     }
 

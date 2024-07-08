@@ -1,0 +1,18 @@
+meta {
+  name: Cadastrar Novo Usuário - Basico
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:8080/v1/users
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "username": "aydan.macedo",
+    "password": "123"
+  }
+}

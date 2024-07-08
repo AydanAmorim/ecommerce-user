@@ -1,6 +1,5 @@
 package fiap.Challenge.springsecurity.interfaceadapters.web;
 
-
 import fiap.Challenge.springsecurity.entities.Role;
 import fiap.Challenge.springsecurity.interfaceadapters.gateway.UserGateway;
 import fiap.Challenge.springsecurity.interfaceadapters.presenters.login.LoginRequest;
@@ -27,16 +26,25 @@ public class LoginWeb {
     @Value("${spring.application.name}")
     private String DEFAULT_SYSNAME;
 
-    private JwtEncoder jwtEncoder;
-    private BCryptPasswordEncoder passwordEncoder;
-    private UserGateway userGateway;
+    private final JwtEncoder jwtEncoder;
+    private final BCryptPasswordEncoder passwordEncoder;
+    private final UserGateway userGateway;
 
+    public LoginWeb(JwtEncoder jwtEncoder,
+                    BCryptPasswordEncoder passwordEncoder,
+                    UserGateway userGateway){
 
+        this.jwtEncoder = jwtEncoder;
+        this.passwordEncoder = passwordEncoder;
+        this.userGateway = userGateway;
+
+    }
 
     @PostMapping()
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest){
+        String username = loginRequest.username();
 
-        var user = userGateway.findUserByUsername(loginRequest.username());
+        var user = this.userGateway.findUserByUsername(username);
 
         if (user.isEmpty() || !user.get().isLoginCorrect(loginRequest, passwordEncoder)){
             throw new BadCredentialsException("Usuário ou senha são inválidos, verifique suas credenciais!");
