@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>fiap.Challenge</groupId>
-	<artifactId>springsecurityUsers</artifactId>
+	<artifactId>usersManagement</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>springsecurityUsers</name>
+	<name>usersManagement</name>
 	<description>Java Tech Challenge 5 project to implement an autenthication and authorization system</description>
 	<url/>
 	<licenses>
@@ -70,7 +70,6 @@
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 		</dependency>
-
 
 	</dependencies>
 

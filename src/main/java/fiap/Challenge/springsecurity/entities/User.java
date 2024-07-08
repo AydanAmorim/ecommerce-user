@@ -1,8 +1,11 @@
 package fiap.Challenge.springsecurity.entities;
 
+import fiap.Challenge.springsecurity.interfaceadapters.presenters.login.LoginRequest;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -31,9 +34,9 @@ public class User implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "IdRole")
     )
     private Set<Role> roles;
-    /*
+
     public boolean isLoginCorrect(LoginRequest loginRequest, PasswordEncoder passwordEncoder) {
         return passwordEncoder.matches(loginRequest.password(), this.password);
     }
-     */
+
 }

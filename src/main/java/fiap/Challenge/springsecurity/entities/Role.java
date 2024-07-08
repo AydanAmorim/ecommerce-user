@@ -3,7 +3,7 @@ package fiap.Challenge.springsecurity.entities;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "UsersRoles")
+@Table(name = "tb_roles")
 public class Role {
 
     @Id
@@ -26,7 +26,7 @@ public class Role {
 
     public enum Values{
         ADMIN(1),
-        DEFAULT(2);
+        BASIC(2);
 
         Integer id;
 

@@ -14,6 +14,6 @@ public class UserDto extends Dto{
     private String username;
 
     @NotEmpty
-    @Schema(example = "Secure password prefer to use symbols, letters and numbers")
+    @Schema(example = "Secure password, prefer to use symbols, letters and numbers")
     private String password;
 }

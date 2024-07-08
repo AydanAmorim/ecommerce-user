@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserGateway {
     @Resource
@@ -15,6 +17,14 @@ public class UserGateway {
 
     public Page<User> findAll(Pageable pageable){
         return this.userRepository.findAll(pageable);
+    }
+
+    public Optional<User> findUserByUsername(String username){
+        return this.userRepository.findUserByUsername(username);
+    }
+
+    public User insert(User user){
+        return this.userRepository.save(user);
     }
 
 

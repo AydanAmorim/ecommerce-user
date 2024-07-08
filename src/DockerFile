@@ -18,8 +18,8 @@ FROM amazoncorretto:21-alpine-jdk
 
 WORKDIR /user
 
-COPY --from=build /springsecurity/target/*.jar ./user-service.jar
+COPY --from=build /springsecurity/target/*.jar ./userManagement.jar
 
 EXPOSE 7076
 
-ENTRYPOINT ["java","-jar","user-service.jar"]
+ENTRYPOINT ["java","-jar","userManagement.jar"]
