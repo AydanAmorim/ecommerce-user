@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,6 +25,8 @@ import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 
 @Configuration
+@EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
 
     @Value("${jwt.public.key}")
@@ -44,8 +48,9 @@ public class SecurityConfig {
             "/webjars/**",
             // -- Swagger UI v3 (OpenAPI)
             "/v3/api-docs/**",
-            "/swagger-ui/**"
-            // other public endpoints of your API may be appended to this array
+            "/swagger-ui/**",
+            // -- My public URI
+            "/login"
     };
 
     public SecurityConfig(AccessDeniedHandler accessDeniedHandler) {
@@ -63,8 +68,7 @@ public class SecurityConfig {
 
         http
             .authorizeHttpRequests(authorize -> authorize
-                    .requestMatchers("/login").permitAll()
-                    .requestMatchers("/v1/users").permitAll()
+                    .anyRequest().authenticated()
             )
             .csrf(csrf -> csrf.disable())
             .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
@@ -73,9 +77,6 @@ public class SecurityConfig {
         .exceptionHandling(exceptionHandling -> exceptionHandling
                 .accessDeniedHandler(accessDeniedHandler)
         );
-
-        // .requestMatchers(HttpMethod.POST, "/login").permitAll()
-        //.anyRequest().authenticated())
 
         return http.build();
     }

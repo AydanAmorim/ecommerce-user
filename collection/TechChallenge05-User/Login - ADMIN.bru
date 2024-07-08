@@ -1,7 +1,7 @@
 meta {
-  name: Login
+  name: Login - ADMIN
   type: http
-  seq: 2
+  seq: 1
 }
 
 post {
@@ -15,4 +15,8 @@ body:json {
     "username": "admin",
     "password": "123"
   }
+}
+
+vars:post-response {
+  accessToken: res.body.accessToken
 }

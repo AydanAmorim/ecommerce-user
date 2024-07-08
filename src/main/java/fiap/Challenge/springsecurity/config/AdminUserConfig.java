@@ -20,12 +20,10 @@ public class AdminUserConfig implements CommandLineRunner {
     @Value("${SYSTEM_DEFAULT_PASSWORD:123}")
     private String DEFAULT_PASSWORD;
 
-    private RoleRepository roleRepository;
-    private UserRepository userRepository;
-    private BCryptPasswordEncoder passwordEncoder;
-    public AdminUserConfig(UserRepository userRepository
-                            ,RoleRepository roleRepository
-                            ,BCryptPasswordEncoder passEncoder) {
+    private final RoleRepository roleRepository;
+    private final UserRepository userRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
+    public AdminUserConfig(UserRepository userRepository,RoleRepository roleRepository,BCryptPasswordEncoder passEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passEncoder;
@@ -38,7 +36,7 @@ public class AdminUserConfig implements CommandLineRunner {
 
         userAdmin.ifPresentOrElse(
                 user -> {
-                    System.out.println("Usuário " +DEFAULT_USERNAME + " já existe! nada será alterado!");
+                    System.out.println("Usuário " + DEFAULT_USERNAME + " já existe (nada será alterado)");
                 },
                 () -> {
                     var userNewAdmin = new User();
