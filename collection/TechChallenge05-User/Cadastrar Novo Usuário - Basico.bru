@@ -1,0 +1,22 @@
+meta {
+  name: Cadastrar Novo Usuário - Basico
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://localhost:8080/users/basicUser
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+    "username": "user.basic",
+    "password": "basic"
+  }
+}

@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value="/v1/users")
+@RequestMapping(value="/users")
 @Tag(name ="User management route")
 public class UserWeb {
     @Resource

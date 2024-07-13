@@ -1,22 +1,18 @@
 package fiap.Challenge.springsecurity.entities;
 
-import fiap.Challenge.springsecurity.interfaceadapters.presenters.login.LoginRequest;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.io.Serializable;
 import java.util.Set;
-
 
 @Entity
 @Table(name = "tb_users")
 @Getter
 @Setter
 public class User implements Serializable {
-
     private static final long serialVersionUID = 1;
 
     @Id
@@ -35,8 +31,7 @@ public class User implements Serializable {
     )
     private Set<Role> roles;
 
-    public boolean isLoginCorrect(LoginRequest loginRequest, PasswordEncoder passwordEncoder) {
-        return passwordEncoder.matches(loginRequest.password(), this.password);
+    public boolean isLoginCorrect(String passwordInform, PasswordEncoder passwordEncoder) {
+        return passwordEncoder.matches(passwordInform, this.password);
     }
-
 }
