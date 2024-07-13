@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>fiap.Challenge</groupId>
-	<artifactId>usersManagement</artifactId>
+	<artifactId>ecommerce-user</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>usersManagement</name>
-	<description>Java Tech Challenge 5 project to implement an autenthication and authorization system</description>
+	<name>ecommerce-user</name>
+	<description>Java Tech Challenge 5 - Projeto para implementar o cadastro de usuários dos serviços</description>
 	<url/>
 	<licenses>
 		<license/>

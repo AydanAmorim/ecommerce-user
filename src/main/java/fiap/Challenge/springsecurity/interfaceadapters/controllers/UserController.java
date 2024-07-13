@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -30,6 +31,8 @@ public class UserController {
     @Resource
     private UserPresenter userPresenter;
 
+    @Resource
+    private BCryptPasswordEncoder passwordEncoder;
 
     public PagedResponse<UserDto> findAll(Pagination pagination) {
         Pageable pageable = PageRequest.of(pagination.getPage(), pagination.getPageSize());
@@ -54,6 +57,8 @@ public class UserController {
         this.create(userDto);
 
         User user = this.userPresenter.convert(userDto);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
         user.setRoles(Set.of(role));
         user = this.userGateway.insert(user);
 

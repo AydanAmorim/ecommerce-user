@@ -8,11 +8,10 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value="/v1/users")
+@RequestMapping(value="/users")
 @Tag(name ="User management route")
 public class UserWeb {
     @Resource
@@ -20,7 +19,6 @@ public class UserWeb {
 
     @Operation(summary = "Get all Users Information")
     @GetMapping
-    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public ResponseEntity<PagedResponse<UserDto>> findAll(@Parameter(description = "Default value 10. Max value 1000", example = "10") @RequestParam(required = false) Integer pageSize,
                                                           @Parameter(description = "Default value 0", example = "0") @RequestParam(required = false) Integer initialPage) {
 
@@ -37,7 +35,6 @@ public class UserWeb {
 
     @Operation(summary="Add a new ADMIN user")
     @PostMapping("adminUser")
-    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public ResponseEntity<UserDto> addAdminUser(@RequestBody UserDto userDto) {
         UserDto userSavedDto = this.userController.insertAdminUser(userDto);
         return ResponseEntity.ok(userSavedDto);
