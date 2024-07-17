@@ -1,12 +1,14 @@
 # FIAP Tech Challenge 5
+
 ## API para cadastro de usuários
 
-Este repositório refere-se ao microsserviço de usuários para atender aos requisitos do desafio proposto pelo 
+Este repositório refere-se ao microsserviço de usuários para atender aos requisitos do desafio proposto pelo
 MBA em desenvolvimento Java, este projeto envolve a comunicação entre microserviços.
 
 ## Principais recursos deste microserviço
 
 Responsável por cadastrar informações dos usuarios, assim será possível:
+
 * Incluir novos usuários;
 * gerar token para autorização no serviço;
 * Consultar usuários do sistema;
@@ -27,31 +29,48 @@ Responsável por cadastrar informações dos usuarios, assim será possível:
 
 ## Sobre autenticação (opcional)
 
-o método de autenticação utilizado pelo spring security, neste caso, se baseia em ter um par de chaves uma pública e uma privada, com as duas informações podemos gerar o token de acesso ao serviço.
+o método de autenticação utilizado pelo spring security, neste caso, se baseia em ter um par de chaves uma pública e uma
+privada, com as duas informações podemos gerar o token de acesso ao serviço.
 
 Você poderá consultar o link a seguir que explica como gerar o par de chaves: https://cryptotools.net/rsagen
 
 este código já dispõe deste par de chaves, são os arquivos "app.pub" e "app.key"
 
-
 ## Informações importantes!
 
-Este serviço foi desenvolvido para ser um material de estudo. Portanto existem vunerabilidades que devem ser tratadas para um ambiente produtivo
-é recomendado definir o nome de usuário e senha no arquivo de variáveis de ambiente ".env"
-defina os valores preenchendo as seguintes variáveis, 
+Este serviço foi desenvolvido para ser um material de estudo. Portanto existem vunerabilidades que devem ser tratadas.
+Para um ambiente produtivo é recomendado definir o nome de usuário e senha no arquivo de variáveis de ambiente ".env".
+Defina os valores preenchendo as seguintes variáveis,
 
 Banco de dados (postgree)
+
 ```
 DATABASE_USERNAME=[USERNAME]
 DATABASE_PASSWORD=[PASSWORD]
 ```
 
+Caso não seja uma instalação default do Postgres ou esteja usando container, será necessário também definir a variável
+abaixo.
+
+```
+DATABASE_HOST=[HOST_POSTGRES]
+```
+
 Usuário e senha padrão da aplicação (user admin do sistema)
+
 ```
 SYSTEM_DEFAULT_USERNAME=[USERNAME]
 SYSTEM_DEFAULT_PASSWORD=[PASSWORD]
 ```
+
+_Devido este fazer parte de um [sistema de ecommerce](https://github.com/DFaccio/ecommerce-system), foi necessário
+adicionar as informações refentes ao [Eureka Server](https://github.com/DFaccio/ecommerce-registry/tree/main).
+Para fins de praticidade foi adicionado dois perfis, dev e prod. Caso queira, ignorar, bastaria não criar arquivo .env
+ou
+criar um arquivo e na variável ${PROFILE}, adicionar um valor diferente destes._
+
 vale ressaltar que caso não seja definido, o "AdminUserConfig" definirá valores padrões para o usuário e senha
+
 ``` java
     (...)
     @Value("${SYSTEM_DEFAULT_USERNAME:admin}")
@@ -64,18 +83,23 @@ vale ressaltar que caso não seja definido, o "AdminUserConfig" definirá valore
 
 ## Primeiros passos
 
-Na raiz do projeto, rodar o comando para subir o container do postgreeSQL, criar o banco de dados e popular a tabela de regras (roles) com as regras padrões do sistema e após, inicie o sistema.
+Na raiz do projeto, rodar o comando para subir o container do postgreSQL, criar o banco de dados e popular a tabela de
+regras (roles) com as regras padrões do sistema e após, inicie o sistema.
+
 ```
 docker compose up
 ```
 
 ## Login com Swagger
-por padrão, o tomcat irá subir o serviço na porta :8080, desta maneira você poderá acessar o swagger (documentação)
+
+Por padrão, o tomcat irá subir o serviço na porta :7073, desta maneira você poderá acessar o swagger (documentação)
+
 ```
-    http://localhost:8080/swagger-ui/index.html
+    http://localhost:7073/doc/user.html
 ```
 
-Acessando a rota de login, poderá informar o usuário e senha e estando corretos o sistema irá gerar um token JWT com as credenciais para acesso as demais rotas.
+Acessando a rota de login, poderá informar o usuário e senha e estando corretos o sistema irá gerar um token JWT com as
+credenciais para acesso as demais rotas.
 
 <img src ="./assets/login.png">
 
@@ -87,14 +111,17 @@ agora, você poderá acessar os demais recursos.
 <img src ="./assets/request_logado.png">
 
 ## Vendo o conteúdo de um token JWT
-Com o token de acesso, você pode usar o site (https://jwt.io/) para decriptar um token JWT e ver o conteúdo deste, caso seja necessário:
-<img src ="./assets/jwtToken.png">
 
+Com o token de acesso, você pode usar o site (https://jwt.io/) para decriptar um token JWT e ver o conteúdo deste, caso
+seja necessário:
+<img src ="./assets/jwtToken.png">
 
 ## Como permitir somente usuário ADMIN à acessar uma rota?
 
 Nas configurações da classe SpringSecurity (SecurityConfig), precisamos:
-- Utilizar a *annotation* @EnableMethodSecurity, com ela deixamos responsáveis por definir o escopo de cada usuário à ser definido em cada uma das *restControllers*;
+
+- Utilizar a *annotation* @EnableMethodSecurity, com ela deixamos responsáveis por definir o escopo de cada usuário à
+  ser definido em cada uma das *restControllers*;
 - Iremos definir as rotas que são de uso geral como *.permiteAll()*.
 
 ``` Java
@@ -111,7 +138,8 @@ Nas configurações da classe SpringSecurity (SecurityConfig), precisamos:
     }
 ```
 
-E em cada "RestController" Utilize a annotation @PreAuthorize, definindo que usuários com o escopo definido como "ADMIN" poderão ter acesso ao recurso.
+E em cada "RestController" Utilize a annotation @PreAuthorize, definindo que usuários com o escopo definido como "ADMIN"
+poderão ter acesso ao recurso.
 
 ``` Java
 @Operation(summary = "Get all Users Information")
@@ -125,8 +153,8 @@ public ResponseEntity<PagedResponse<UserDto>> findAll(@Parameter(description = "
 }
 ```
 
-
 ## Agradecimentos
 
 Na elaboração do projeto foi possível utilizar como fonte de consulta um vídeo no youtube.
-Obrigado ao canal Build & Run por disponbilizar este conteúdo. O vídeo utilizado foi https://www.youtube.com/watch?v=nDst-CRKt_k
+Obrigado ao canal Build & Run por disponbilizar este conteúdo. O vídeo utilizado
+foi https://www.youtube.com/watch?v=nDst-CRKt_k

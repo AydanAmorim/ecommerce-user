@@ -1,4 +1,4 @@
-package fiap.Challenge.springsecurity.config;
+package fiap.Challenge.springsecurity.framework.web;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,5 +16,4 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         response.getWriter().write("Você não tem acesso ao recurso solicitado.");
     }
-
 }

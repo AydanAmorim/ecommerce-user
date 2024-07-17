@@ -1,6 +1,6 @@
 package fiap.Challenge.springsecurity.interfaceadapters.controllers;
 
-import fiap.Challenge.springsecurity.config.JwtControl;
+import com.fasterxml.jackson.databind.JsonNode;
 import fiap.Challenge.springsecurity.interfaceadapters.gateway.UserGateway;
 import fiap.Challenge.springsecurity.interfaceadapters.presenters.login.LoginRequest;
 import fiap.Challenge.springsecurity.interfaceadapters.presenters.login.LoginResponse;
@@ -14,17 +14,17 @@ public class LoginController {
     @Resource
     private UserGateway userGateway;
     @Resource
-    private JwtControl jwtControl;
+    private JwtController jwtController;
     @Resource
     private BCryptPasswordEncoder passwordEncoder;
 
     public LoginResponse create(LoginRequest loginRequest) {
         validateLogin(loginRequest);
 
-        return this.jwtControl.createTokenJWT(loginRequest);
+        return this.jwtController.createTokenJWT(loginRequest);
     }
 
-    private void validateLogin(LoginRequest loginRequest){
+    private void validateLogin(LoginRequest loginRequest) {
         var user = this.userGateway.findUserByUsername(loginRequest.username());
 
         if (user.isEmpty() || !user.get().isLoginCorrect(loginRequest.password(), this.passwordEncoder)) {
@@ -33,4 +33,11 @@ public class LoginController {
     }
 
 
+    public JsonNode validateToken(String authorizationHeader) {
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            throw new BadCredentialsException("Token inválido");
+        }
+
+        return jwtController.validateToken(authorizationHeader.substring(7));
+    }
 }

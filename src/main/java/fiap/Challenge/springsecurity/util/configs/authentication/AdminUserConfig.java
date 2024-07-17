@@ -1,8 +1,7 @@
-package fiap.Challenge.springsecurity.config;
+package fiap.Challenge.springsecurity.util.configs.authentication;
 
 import fiap.Challenge.springsecurity.entities.Role;
 import fiap.Challenge.springsecurity.entities.User;
-import fiap.Challenge.springsecurity.framework.repository.RoleRepository;
 import fiap.Challenge.springsecurity.framework.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -21,25 +20,30 @@ public class AdminUserConfig implements CommandLineRunner {
     @Value("${SYSTEM_DEFAULT_PASSWORD:123}")
     private String DEFAULT_PASSWORD;
 
-    private final RoleRepository roleRepository;
     private final UserRepository userRepository;
+
     private final BCryptPasswordEncoder passwordEncoder;
-    public AdminUserConfig(UserRepository userRepository,RoleRepository roleRepository,BCryptPasswordEncoder passEncoder) {
+
+    public AdminUserConfig(UserRepository userRepository, BCryptPasswordEncoder passEncoder) {
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
         this.passwordEncoder = passEncoder;
     }
+
     @Override
     @Transactional
-    public void run(String... args){
-        var roleAdmin = roleRepository.findRoleByName(Role.Values.ADMIN.name());
-        Optional userAdmin = userRepository.findUserByUsername(DEFAULT_USERNAME);
+    public void run(String... args) {
+        Optional<User> userAdmin = userRepository.findUserByUsername(DEFAULT_USERNAME);
 
-        if (! userAdmin.isPresent()) {
+        if (userAdmin.isEmpty()) {
             User userNewAdmin = new User();
             userNewAdmin.setUsername(DEFAULT_USERNAME);
             userNewAdmin.setPassword(passwordEncoder.encode(DEFAULT_PASSWORD));
-            userNewAdmin.setRoles(Set.of(roleAdmin));
+
+            Role role = new Role();
+            role.setType(Role.Values.ADMIN);
+
+            userNewAdmin.setRoles(Set.of(role));
+
             userRepository.save(userNewAdmin);
         }
     }

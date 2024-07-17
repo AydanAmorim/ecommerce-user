@@ -1,4 +1,4 @@
-package fiap.Challenge.springsecurity.interfaceadapters.web;
+package fiap.Challenge.springsecurity.framework.web;
 import fiap.Challenge.springsecurity.interfaceadapters.controllers.UserController;
 import fiap.Challenge.springsecurity.interfaceadapters.presenters.dto.UserDto;
 import fiap.Challenge.springsecurity.util.pagination.PagedResponse;
@@ -29,14 +29,14 @@ public class UserWeb {
     }
 
     @Operation(summary="Add a new user")
-    @PostMapping("basicUser")
+    @PostMapping(value = "/basic")
     public ResponseEntity<UserDto> addUser(@RequestBody UserDto userDto) {
         UserDto userSavedDto = this.userController.insertBasicUser(userDto);
         return ResponseEntity.ok(userSavedDto);
     }
 
     @Operation(summary="Add a new ADMIN user")
-    @PostMapping("adminUser")
+    @PostMapping(value = "/admin")
     @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public ResponseEntity<UserDto> addAdminUser(@RequestBody UserDto userDto) {
         UserDto userSavedDto = this.userController.insertAdminUser(userDto);
