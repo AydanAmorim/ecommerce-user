@@ -84,7 +84,7 @@ copie o accesToken que foi gerado e cole no autorizador do Swagger
 
 agora, você poderá acessar os demais recursos.
 
-<img src ="./assets/Authorize.png">
+<img src ="./assets/request_logado.png">
 
 ## Vendo o conteúdo de um token JWT
 Com o token de acesso, você pode usar o site (https://jwt.io/) para decriptar um token JWT e ver o conteúdo deste, caso seja necessário:
@@ -93,21 +93,21 @@ Com o token de acesso, você pode usar o site (https://jwt.io/) para decriptar u
 
 ## Como permitir somente usuário ADMIN à acessar uma rota?
 
-Nas configurações da classe SpringSecurity (SecurityConfig), utilizamos a annotation @EnableMethodSecurity, desta maneira, nesta configuração iremos informar somente as rotas que são de uso geral
+Nas configurações da classe SpringSecurity (SecurityConfig), precisamos:
+- Utilizar a *annotation* @EnableMethodSecurity, com ela deixamos responsáveis por definir o escopo de cada usuário à ser definido em cada uma das *restControllers*;
+- Iremos definir as rotas que são de uso geral como *.permiteAll()*.
 
 ```
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
         http
             (...)
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.POST, "/login").permitAll()
-                .requestMatchers(HttpMethod.GET, "/users").hasRole(scopeRoleAdmin)
-                .requestMatchers(HttpMethod.POST, "/users/basicUser").hasRole(scopeRoleBasic)
-                .requestMatchers(HttpMethod.POST, "/users/adminUser").hasRole(scopeRoleAdmin)
+                .requestMatchers(HttpMethod.POST, "/users/basicUser").permitAll()
                 .anyRequest().authenticated());
-            (...)
+
+        return http.build();
     }
 ```
 
