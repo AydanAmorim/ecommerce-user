@@ -56,7 +56,8 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        //.requestMatchers("/v1/users/*").hasRole("ADMIN")
+        String scopeRoleAdmin = "ADMIN";
+
         http
             .csrf(csrf -> csrf.disable())
             .httpBasic(Customizer.withDefaults())
@@ -64,8 +65,8 @@ public class SecurityConfig {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.POST, "/login").permitAll()
-                .requestMatchers(HttpMethod.GET, "/users").hasRole("SCOPE_ADMIN")
-                .requestMatchers(HttpMethod.POST, "/users/adminUser").hasRole("SCOPE_ADMIN")
+                .requestMatchers(HttpMethod.GET, "/users").hasRole(scopeRoleAdmin)
+                .requestMatchers(HttpMethod.POST, "/users/adminUser").hasRole(scopeRoleAdmin)
                 .anyRequest().authenticated());
 
         return http.build();
