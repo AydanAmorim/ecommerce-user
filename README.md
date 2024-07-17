@@ -88,7 +88,7 @@ agora, você poderá acessar os demais recursos.
 
 ## Vendo o conteúdo de um token JWT
 Com o token de acesso, você pode usar o site (https://jwt.io/) para decriptar um token JWT e ver o conteúdo deste, caso seja necessário:
-<img src ="./assets/request_logado.png">
+<img src ="./assets/jwtToken.png">
 
 
 ## Como permitir somente usuário ADMIN à acessar uma rota?
@@ -97,7 +97,7 @@ Nas configurações da classe SpringSecurity (SecurityConfig), precisamos:
 - Utilizar a *annotation* @EnableMethodSecurity, com ela deixamos responsáveis por definir o escopo de cada usuário à ser definido em cada uma das *restControllers*;
 - Iremos definir as rotas que são de uso geral como *.permiteAll()*.
 
-```
+``` Java
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -113,7 +113,7 @@ Nas configurações da classe SpringSecurity (SecurityConfig), precisamos:
 
 E em cada "RestController" Utilize a annotation @PreAuthorize, definindo que usuários com o escopo definido como "ADMIN" poderão ter acesso ao recurso.
 
-```
+``` Java
 @Operation(summary = "Get all Users Information")
 @GetMapping
 @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
