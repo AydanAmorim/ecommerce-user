@@ -1,4 +1,5 @@
 package fiap.Challenge.springsecurity.framework.web;
+
 import fiap.Challenge.springsecurity.interfaceadapters.controllers.UserController;
 import fiap.Challenge.springsecurity.interfaceadapters.presenters.dto.UserDto;
 import fiap.Challenge.springsecurity.util.pagination.PagedResponse;
@@ -12,8 +13,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value="/users")
-@Tag(name ="User management route")
+@RequestMapping(value = "/users")
+@Tag(name = "User management route")
 public class UserWeb {
     @Resource
     private UserController userController;
@@ -28,19 +29,18 @@ public class UserWeb {
         return ResponseEntity.ok(this.userController.findAll(page));
     }
 
-    @Operation(summary="Add a new user")
+    @Operation(summary = "Add a new user")
     @PostMapping(value = "/basic")
     public ResponseEntity<UserDto> addUser(@RequestBody UserDto userDto) {
         UserDto userSavedDto = this.userController.insertBasicUser(userDto);
         return ResponseEntity.ok(userSavedDto);
     }
 
-    @Operation(summary="Add a new ADMIN user")
+    @Operation(summary = "Add a new ADMIN user")
     @PostMapping(value = "/admin")
     @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public ResponseEntity<UserDto> addAdminUser(@RequestBody UserDto userDto) {
         UserDto userSavedDto = this.userController.insertAdminUser(userDto);
         return ResponseEntity.ok(userSavedDto);
     }
-
 }
