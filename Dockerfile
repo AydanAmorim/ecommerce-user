@@ -20,6 +20,6 @@ WORKDIR /user
 
 COPY --from=build /ecommerce-user/target/*.jar ./ecommerce-user.jar
 
-EXPOSE 7076
+EXPOSE 7073
 
 ENTRYPOINT ["java","-jar","ecommerce-user.jar"]
