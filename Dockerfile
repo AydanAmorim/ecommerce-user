@@ -18,7 +18,7 @@ FROM amazoncorretto:21-alpine-jdk
 
 WORKDIR /user
 
-COPY --from=build /user/target/*.jar ./ecommerce-user.jar
+COPY --from=build /ecommerce-user/target/*.jar ./ecommerce-user.jar
 
 EXPOSE 7073
 
