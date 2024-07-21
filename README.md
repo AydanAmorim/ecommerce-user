@@ -40,7 +40,14 @@ este código já dispõe deste par de chaves, são os arquivos "app.pub" e "app.
 
 Este serviço foi desenvolvido para ser um material de estudo. Portanto existem vunerabilidades que devem ser tratadas.
 Para um ambiente produtivo é recomendado definir o nome de usuário e senha no arquivo de variáveis de ambiente ".env".
-Defina os valores preenchendo as seguintes variáveis,
+Defina os valores preenchendo as seguintes variáveis:
+
+pgAdmin 4 (Interface no browser para consultar registros do banco de dados postgree)
+
+```
+PGADMIN_DEFAULT_EMAIL=[email@teste.com.br]
+PGADMIN_DEFAULT_PASSWORD=[password]
+```
 
 Banco de dados (postgree)
 
@@ -103,7 +110,7 @@ credenciais para acesso as demais rotas.
 
 <img src ="./assets/login.png">
 
-copie o accesToken que foi gerado e cole no autorizador do Swagger
+copie o accesToken que foi gerado e cole no autorizador ddockeo Swagger
 <img src ="./assets/Authorize.png">
 
 agora, você poderá acessar os demais recursos.
