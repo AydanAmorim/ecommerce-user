@@ -1,0 +1,22 @@
+meta {
+  name: Login - ADMIN - CRIADO
+  type: http
+  seq: 7
+}
+
+post {
+  url: api/autenticacao
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "username": "user.admin",
+    "password": "admin"
+  }
+}
+
+vars:post-response {
+  accessToken: res.body.accessToken
+}

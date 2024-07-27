@@ -1,0 +1,22 @@
+meta {
+  name: Cadastrar Novo Usuário - Basico
+  type: http
+  seq: 2
+}
+
+post {
+  url: api/usuarios/adicionar_usuario_basico
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{accessToken}}
+}
+
+body:json {
+  {
+    "username": "user.basic",
+    "password": "basic"
+  }
+}

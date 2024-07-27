@@ -1,0 +1,22 @@
+meta {
+  name: Login - BASIC
+  type: http
+  seq: 3
+}
+
+post {
+  url: api/autenticacao
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "username": "user.basic",
+    "password": "basic"
+  }
+}
+
+vars:post-response {
+  accessToken: res.body.accessToken
+}
